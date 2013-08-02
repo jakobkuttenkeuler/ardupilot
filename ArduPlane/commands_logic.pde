@@ -227,7 +227,7 @@ static void do_RTL(void)
 {
     control_mode    = RTL;
     prev_WP = current_loc;
-    next_WP = home;
+    next_WP = mission.get_home();
 
     if (g.loiter_radius < 0) {
         loiter.direction = -1;
@@ -252,8 +252,6 @@ static void do_takeoff()
     // pitch in deg, airspeed  m/s, throttle %, track WP 1 or 0
     takeoff_pitch_cd                = (int)next_nav_command.p1 * 100;
     takeoff_altitude_cm     = next_nav_command.alt;
-    next_WP.lat             = home.lat + 1000;          // so we don't have bad calcs
-    next_WP.lng             = home.lng + 1000;          // so we don't have bad calcs
     takeoff_complete        = false;                            // set flag to use gps ground course during TO.  IMU will be doing yaw drift correction
     // Flag also used to override "on the ground" throttle disable
 }
@@ -551,13 +549,16 @@ static void do_change_speed()
 
 static void do_set_home()
 {
+    Location tmp;
+    
     if (next_nonnav_command.p1 == 1 && g_gps->status() == GPS::GPS_OK_FIX_3D) {
         init_home();
     } else {
-        home.id         = MAV_CMD_NAV_WAYPOINT;
-        home.lng        = next_nonnav_command.lng;                                      // Lon * 10**7
-        home.lat        = next_nonnav_command.lat;                                      // Lat * 10**7
-        home.alt        = max(next_nonnav_command.alt, 0);
+        tmp.id         = MAV_CMD_NAV_WAYPOINT;
+        tmp.lng        = next_nonnav_command.lng;                                      // Lon * 10**7
+        tmp.lat        = next_nonnav_command.lat;                                      // Lat * 10**7
+        tmp.alt        = max(next_nonnav_command.alt, 0);
+        mission.set_home(tmp);
         home_is_set = true;
     }
 }
