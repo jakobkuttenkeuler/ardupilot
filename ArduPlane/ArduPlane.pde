@@ -418,7 +418,6 @@ static bool have_position;
 static int32_t hold_course_cd                 = -1;              // deg * 100 dir of plane
 
 // This is the command type (eg navigate to waypoint) of the active navigation command
-static uint8_t nav_command_ID          = NO_COMMAND;
 static uint8_t non_nav_command_ID      = NO_COMMAND;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1034,7 +1033,7 @@ static void update_flight_mode(void)
 {
     if(control_mode == AUTO) {
 
-        switch(nav_command_ID) {
+        switch(next_nav_command.id) {
         case MAV_CMD_NAV_TAKEOFF:
             if (hold_course_cd == -1) {
                 // we don't yet have a heading to hold - just level
