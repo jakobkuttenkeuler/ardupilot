@@ -70,6 +70,7 @@
 #include <AP_SpdHgtControl.h>
 #include <AP_TECS.h>
 
+#include <AP_Mission.h>
 // Pre-AP_HAL compatibility
 #include "compat.h"
 
@@ -275,6 +276,7 @@ static AP_Navigation *nav_controller = &L1_controller;
 // selected navigation controller
 static AP_SpdHgtControl *SpdHgt_Controller = &TECS_controller;
 
+static AP_Mission mission;
 ////////////////////////////////////////////////////////////////////////////////
 // Analog Inputs
 ////////////////////////////////////////////////////////////////////////////////
@@ -704,7 +706,6 @@ static const AP_Scheduler::Task scheduler_tasks[] PROGMEM = {
     { read_airspeed,          5,   1500 },
     { update_alt,             5,   3400 },
     { calc_altitude_error,    5,   1000 }, // 10
-    { update_commands,        5,   7000 },
     { obc_fs_check,           5,   1000 },
     { gcs_update,             1,   1700 },
     { gcs_data_stream_send,   1,   3000 },
@@ -713,8 +714,8 @@ static const AP_Scheduler::Task scheduler_tasks[] PROGMEM = {
     { check_usb_mux,          5,   1000 },
     { read_battery,           5,   1000 },
     { compass_accumulate,     1,   1500 },
-    { barometer_accumulate,   1,    900 }, // 20
-    { one_second_loop,       50,   3900 },
+    { barometer_accumulate,   1,    900 },
+    { one_second_loop,       50,   3900 }, // 20
     { check_long_failsafe,   15,   1000 },
     { airspeed_ratio_update, 50,   1000 },
     { update_logging,         5,   1200 },

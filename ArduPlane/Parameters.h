@@ -238,6 +238,7 @@ public:
         k_param_L1_controller,
         k_param_rcmap,
         k_param_TECS_controller,
+        k_param_mission,
 
         //
         // 240: PID Controllers
