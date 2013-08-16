@@ -1589,7 +1589,7 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
         {
             tell_command.lat = 1.0e7f*packet.x;                                     // in as DD converted to * t7
             tell_command.lng = 1.0e7f*packet.y;                                     // in as DD converted to * t7
-            tell_command.alt = packet.z*1.0e2f;                                     // in as m converted to cm
+            tell_command.alt = packet.z*100.0f;                                     // in as m converted to cm
             tell_command.options = 0;                                     // absolute altitude
             break;
         }
@@ -1597,12 +1597,11 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
 #ifdef MAV_FRAME_LOCAL_NED
         case MAV_FRAME_LOCAL_NED:                         // local (relative to home position)
         {
-            Location home = mission.get_home();
-            
-            tell_command.lat = 1.0e7f*ToDeg(packet.x/
-                                           (RADIUS_OF_EARTH*cosf(ToRad(home.lat/1.0e7f)))) + home.lat;
-            tell_command.lng = 1.0e7f*ToDeg(packet.y/RADIUS_OF_EARTH) + home.lng;
-            tell_command.alt = -packet.z*1.0e2f;
+            tell_command.lat = mission.get_home().lat;
+            tell_command.lng = mission.get_home().lng;
+            location_offset(tell_command, packet.x, packet.y);
+
+            tell_command.alt = -packet.z * 100.0f;
             tell_command.options = MASK_OPTIONS_RELATIVE_ALT;
             break;
         }
@@ -1611,10 +1610,10 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
 #ifdef MAV_FRAME_LOCAL
         case MAV_FRAME_LOCAL:                         // local (relative to home position)
         {
-            tell_command.lat = 1.0e7f*ToDeg(packet.x/
-                                           (RADIUS_OF_EARTH*cosf(ToRad(home.lat/1.0e7f)))) + home.lat;
-            tell_command.lng = 1.0e7f*ToDeg(packet.y/RADIUS_OF_EARTH) + home.lng;
-            tell_command.alt = packet.z*1.0e2f;
+            tell_command.lat = mission.get_home().lat;
+            tell_command.lng = mission.get_home().lng;
+            location_offset(tell_command, packet.x, packet.y);
+            tell_command.alt = packet.z*100.0f;
             tell_command.options = MASK_OPTIONS_RELATIVE_ALT;
             break;
         }
