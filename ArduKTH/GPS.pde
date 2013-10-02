@@ -14,7 +14,7 @@ void print_GPS()
 //-------------------------------------------------------------------------------
 void init_GPS()
 {
-   hal.console->printf("  Init GPS:  ");
+    hal.console->printf_P(PSTR("  Init GPS:  "));
    hal.uartB->begin(38400);
    g_gps->init(hal.uartB, GPS::GPS_ENGINE_AIRBORNE_2G);
    wait_ms(200);         // Why do I have this here?
