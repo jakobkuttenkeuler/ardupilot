@@ -18,7 +18,7 @@ void init_GPS()
    hal.uartB->begin(38400);
    g_gps->init(hal.uartB, GPS::GPS_ENGINE_AIRBORNE_2G);
    wait_ms(200);         // Why do I have this here?
-   hal.console->println("  Done :-)");
+   hal.console->println_P(PSTR("  Done :-)"));
   }
 
 //-------------------------------------------------------------------------------
@@ -42,14 +42,14 @@ void update_GPS()
           current_pos.alt = gps.alt;
           //print_GPS();
         } else {
-            //hal.console->println("No fix");
+            //hal.console->println_P(PSTR("No fix"));
             // If fix very old, do death reconing
             //print_GPS();
         }
         g_gps->new_data = false;
     }
     else{
-      //hal.console->println("No GPS new data");
+      //hal.console->println_P(PSTR("No GPS new data"));
     }
 }
 //-------------------------------------------------------------------------------

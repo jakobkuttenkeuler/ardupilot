@@ -11,7 +11,7 @@ void init_analog(){
   Ch3 = hal.analogin->channel(3);
   Ch4 = hal.analogin->channel(4);
   Vcc = hal.analogin->channel(ANALOG_INPUT_BOARD_VCC);
-  hal.console->println(" ok. ");
+  hal.console->println_P(PSTR(" ok. "));
 }
 //-------------------------------------------------------------------------------
 
