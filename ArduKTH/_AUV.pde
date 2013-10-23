@@ -34,14 +34,11 @@
 //   A7:  
 //   A8:  
 //-------------------------------------------------------------------------------
-<<<<<<< HEAD
 static float depth_0 = 0.0;
 static float accel_length_crash_threshold = 4.0;   // If abs(norm(accel)-9.82) exceeds then kill_mission!!
 static float gyro_length_crash_threshold  = 4.0;   // If norm(accel) exceeds then kill_mission!!
 //-------------------------------------------------------------------------------
 
-=======
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 void AUV_RC(){
    pwm_rudder   =  (int)(hal.rcin->read(CH_1));  // From Transmitting RC channel
    pwm_depth    =  (int)(hal.rcin->read(CH_2));  // From Transmitting RC channel
@@ -74,7 +71,6 @@ void AUV_neutral_ctrl(){
   hal.rcout->write(CH_8,1500);
 }
 //---------------------------------------------------------------------------
-<<<<<<< HEAD
 void initiate_AUV_mission(){
   // This function is called at mission startup
   depth_0 = 0.0;
@@ -86,21 +82,14 @@ float calc_depth(){
 }
 
 //---------------------------------------------------------------------------
-=======
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 void AUV_craft_setup(){
   hal.console->printf_P(PSTR("===========================\n"));
   hal.console->printf_P(PSTR("Setting up AUV-type craft\n"));
   hal.console->printf_P(PSTR("===========================\n"));
   craft_type='A';
   
-<<<<<<< HEAD
     pid_1.kP(70);  pid_1.kI(2.0);   pid_1.kD(0.0);    pid_1.imax(1000.0);   pid_1.save_gains();
     pid_2.kP(60);   pid_2.kI(3.0);   pid_2.kD(0.0);    pid_2.imax(1000.0);   pid_2.save_gains();
-=======
-    pid_1.kP(500);  pid_1.kI(0.0);   pid_1.kD(0.0);    pid_1.imax(1000.0);   pid_1.save_gains();
-    pid_2.kP(500);   pid_2.kI(0.0);   pid_2.kD(0.0);    pid_2.imax(1000.0);   pid_2.save_gains();
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     pid_3.kP(100);   pid_3.kI(0.0);   pid_3.kD(0.0);    pid_3.imax(1000.0);   pid_3.save_gains();
     pid_4.kP(500);   pid_4.kI(0.0);   pid_4.kD(0.0);    pid_4.imax(1000.0);   pid_4.save_gains();
     AUV_neutral_ctrl();
@@ -113,7 +102,6 @@ void AUV_craft_setup(){
     hal.console->printf_P(PSTR("  done. \n"));
 }
 //-------------------------------------------------------------------------------
-<<<<<<< HEAD
 void crash_test(){
   //hal.console->printf_P(PSTR("  Accel-length. %.2f   Gyro-length. %.2f\n"),accel.length(),gyro.length());
   if (abs(accel.length()-9.81)>accel_length_crash_threshold) {
@@ -130,8 +118,6 @@ void crash_test(){
  }
 }
 //-------------------------------------------------------------------------------
-=======
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 void write_AUV_telementry_data(){
   if ((time_ms-last_data_sent_ms)>200)  {
      last_data_sent_ms = time_ms; 
@@ -149,14 +135,9 @@ void write_AUV_telementry_data(){
 void AUV_Control_Laws(){
   if ((time_ms-last_ctrl_ms)>20)  {
         last_ctrl_ms = time_ms;
-<<<<<<< HEAD
         crash_test();
         // Check Wet sensor
         if (adc2<0.1 || adc4<0.1){  
-=======
-        // Check Wet sensor
-        if (adc2<1.0 || adc4<1.0){  
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
           kill_mission();
           hal.console->printf_P(PSTR("WET SENSOR KILLED MISSION!!!  \n"));
         } 
@@ -164,28 +145,19 @@ void AUV_Control_Laws(){
         
         // Motor RPM control
         //err_rpm  = target_rpm - rpm;         // Control error to feedback
-<<<<<<< HEAD
-=======
-        //pwm_rpm = 1001 + (int) pid_3.get_pid(err_rpm);   // Control value from PID-regulator 
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
         pwm_rpm = target_rpm;
         pwm_rpm = min(max(pwm_rpm,1010),1800);   // 
         hal.rcout->write(CH_3,pwm_rpm);            // send to motor 
         //hal.console->printf_P(PSTR("err_rpm=%f  pwm_rpm  %i \n"),err_rpm,pwm_rpm);
         
         // Rudder & Depth control
-<<<<<<< HEAD
         depth      = calc_depth();  
-=======
-        depth      = 0.9*depth +0.1*(17.24*adc1-8.252);  // Damped & Depending on pressure sensor
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
         err_depth  = target_depth - depth;               // Control error to feedback
         err_cc     = unwrap_pi(heading-target_ctt);      // Control error to feedback
         pwm_cc     = pid_1.get_pid(err_cc);              // Local help variable
         pwm_depth  = pid_2.get_pid(err_depth);           // Local help variable
         pwm_port   = 1500 + ( pwm_cc + pwm_depth);       //  Mix
         pwm_stbd   = 1500 + ( pwm_cc - pwm_depth);       //  Mix 
-<<<<<<< HEAD
        
           // Limit deflection to enable turns under water and to save servos from locking.
           int pwm_port_temp = 0;
@@ -194,10 +166,6 @@ void AUV_Control_Laws(){
           if (pwm_port<( pwm_stbd-600))  {pwm_port_temp = pwm_port; pwm_port = pwm_port + (-pwm_port+( pwm_stbd- 600))/2; pwm_stbd = pwm_stbd - ( pwm_stbd-( pwm_port_temp+ 600))/2; }
           if (pwm_port<(-pwm_stbd+2600)) {pwm_port_temp = pwm_port; pwm_port = pwm_port + (-pwm_port+(-pwm_stbd+2600))/2; pwm_stbd = pwm_stbd + (-pwm_stbd+(-pwm_port_temp+2600))/2; }      
                
-=======
-        pwm_port   = min(max(pwm_port,1000),1800);       // Limit deflection
-        pwm_stbd   = min(max(pwm_stbd,1200),2000);       // Limit deflection
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
         hal.rcout->write(CH_1,pwm_port);                 // send to port Servo
         hal.rcout->write(CH_2,pwm_stbd);                 // send to stb  Servo
         //hal.console->printf_P(PSTR("errCC=%.4f   err Depth=%.4f   pwm_cc=%i  pwm_port=%i  pwm_stbd=%i\n"),err_cc,err_depth,pwm_cc,pwm_port, pwm_stbd);
@@ -213,13 +181,6 @@ void AUV(){
   if (RC_feedthrough)  { AUV_RC();  }          // Radio control the bugger
   else 
   if (ctrl_mode != 'i')  { AUV_Control_Laws(); write_AUV_telementry_data(); }
-<<<<<<< HEAD
 }
 //-------------------------------------------------------------------------------
 
-=======
-
-}
-//-------------------------------------------------------------------------------
-
->>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
