@@ -24,8 +24,13 @@ struct CCD distance_and_bearing(struct wp_class wp1, struct wp_class wp2){
   float dist   = 0.0;
   float course = 0.0;
   float Radie = 6378.137; //  [km] WGS84
+<<<<<<< HEAD
   //hal.console->printf_P(PSTR("wp1 = %.5f  %.5f\n"),wp1.lat,wp1.lon);
   //hal.console->printf_P(PSTR("wp2 = %.5f  %.5f\n"),wp2.lat,wp2.lon);
+=======
+  //hal.console->printf("wp1 = %.5f  %.5f\n",wp1.lat,wp1.lon);
+  //hal.console->printf("wp2 = %.5f  %.5f\n",wp2.lat,wp2.lon);
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 
   if ((wp2.lat!=wp1.lat) || (wp2.lon!=wp1.lon)) {
      float dlat = (wp2.lat-wp1.lat); 
@@ -39,7 +44,11 @@ struct CCD distance_and_bearing(struct wp_class wp1, struct wp_class wp2){
      dist       = (float) (Radie/1.852*sqrt( dlat*dlat + q*q*dlon*dlon));
      course = (float) atan2( dlon, dfi);
      course = unwrap_2pi(course);
+<<<<<<< HEAD
      //hal.console->printf_P(PSTR("dist = %f     course = %f\n"),dist, ToDeg(course));
+=======
+     //hal.console->printf("dist = %f     course = %f\n",dist, ToDeg(course));
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
   }
    CCD ccd={course,dist};
   return ccd;
@@ -55,7 +64,11 @@ wp_class get_closet_point_on_rhumbLine(struct wp_class A, struct wp_class B,  st
     if (t < 0.0) {t = 0.0;} // Takes care of overshoot at A
     if (t > 1.0) {t = 1.0;} // Takes care of overshoot at B
     wp_class closest_point = {A.lon + AB.lon * t , A.lat + AB.lat * t};
+<<<<<<< HEAD
     //hal.console->printf_P(PSTR("Closest point on rhumb: lon=%f,    lat = %.5f \n"),ToDeg(closest_point.lon),ToDeg(closest_point.lat));
+=======
+    //hal.console->printf("Closest point on rhumb: lon=%f,    lat = %.5f \n",ToDeg(closest_point.lon),ToDeg(closest_point.lat));
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     return closest_point;
 }
 //-------------------------------------------------------------------------------
@@ -77,7 +90,11 @@ float calc_course_to_wp_wrpt_Xtrack_error(struct wp_class wpA, struct wp_class w
    }
    CCD   tmp = distance_and_bearing(pos, wpD);  // Returns both course and distance
    float course = unwrap_2pi(tmp.course);
+<<<<<<< HEAD
    //hal.console->printf_P(PSTR("Steer = %f deg\n"),ToDeg(course));
+=======
+   //hal.console->printf("Steer = %f deg\n",ToDeg(course));
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
    return course;
 }
 //-------------------------------------------------------------------------------

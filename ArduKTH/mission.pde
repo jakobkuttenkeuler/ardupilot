@@ -6,27 +6,39 @@
 
 void start_CC_mission(){ 
    hal.console->printf_P(PSTR("Starting CC mission\n"));
+<<<<<<< HEAD
    if (craft_type=='A') {initiate_AUV_mission();}
    start_new_log();
+=======
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
    arm_RC();
    mission_start_ms = time_ms; 
    mission_ms       = 0;
    current_leg_nr = 0;
    ctrl_mode = 'c';
+<<<<<<< HEAD
    
    hal.console->printf_P(PSTR("Flirting with motor control..."));
    hal.rcout->write(CH_3,1500); // To make Motor-control happy
    hal.scheduler->delay(2000); // Wait for Motor-control
    hal.console->printf_P(PSTR(" done. \n")); 
+=======
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 }
 //-------------------------------------------------------------------------------
 void start_GPS_mission(){
    if (gps.status!=2){
+<<<<<<< HEAD
        hal.console->printf_P(PSTR("I refuse to start GPS mission since gps status =0\n"));
      return;
    }
    if (craft_type=='A') {initiate_AUV_mission(); }
    start_new_log();
+=======
+     hal.console->printf_P(PSTR("I refuse to start GPS mission since gps status =0\n"));
+     return;
+   }
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
    mission_start_pos = current_pos;
    hal.console->printf_P(PSTR("\nStarting GPS mission (at position %.5f,  %.5f)  \n"),ToDeg(mission_start_pos.lon), ToDeg(mission_start_pos.lat));
    arm_RC();
@@ -44,6 +56,7 @@ void start_GPS_mission(){
 
 //-------------------------------------------------------------------------------
 void setup_default_CC_mission(){
+<<<<<<< HEAD
     hal.console->printf_P(PSTR("Setting up default CC mission: "));
     CC_leg leg;
     Nlegs_cc          = 0;
@@ -52,19 +65,34 @@ void setup_default_CC_mission(){
     // leg.duration   = 10; leg.course= ToRad(180); leg.rpm=1600;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
     // leg.duration   = 10; leg.course= ToRad(270); leg.rpm=1650;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
     // leg.duration   = 10; leg.course= ToRad(0);   leg.rpm=1500;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
+=======
+    hal.console->printf("Setting up default CC mission: ");
+    CC_leg leg;
+    Nlegs_cc          = 0;
+    leg.duration   = 10; leg.course= ToRad(0);   leg.rpm=1600;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
+    leg.duration   = 10; leg.course= ToRad(90);  leg.rpm=1650;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
+    leg.duration   = 10; leg.course= ToRad(180); leg.rpm=1600;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
+    leg.duration   = 10; leg.course= ToRad(270); leg.rpm=1650;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     leg.duration   = 10; leg.course= ToRad(0);   leg.rpm=1500;    leg.depth=0.0;    CC_mission[Nlegs_cc] = leg;   Nlegs_cc++;
     current_leg_nr = 0;
     hal.console->printf_P(PSTR("done\n"));
   }
 //-------------------------------------------------------------------------------
 void print_CC_mission(){
+<<<<<<< HEAD
     hal.console->printf_P(PSTR("\n     Compass course type Mission:  %i legs\n"),Nlegs_cc);
     hal.console->printf_P(PSTR("     Leg    Duration      CC       Depth        RPM \n"));
+=======
+   hal.console->printf_P(PSTR("\n     Compass course type Mission:  %i legs\n"),Nlegs_cc);
+   hal.console->printf_P(PSTR("     Leg    Duration      CC       Depth        RPM \n"));
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     for (int ii=0; ii<(Nlegs_cc); ii++) {
        hal.console->printf_P(PSTR("    %3i %10.1f %10.1f %10.1f %10.0f  \n"),ii,CC_mission[ii].duration,ToDeg(CC_mission[ii].course), CC_mission[ii].depth, CC_mission[ii].rpm);
     }
 }
 //-------------------------------------------------------------------------------
+<<<<<<< HEAD
 static float do_turn(){
   // Calculate and return the time-changing set compass course in a turn
   float turnrate, coarseToSail, initial_course;
@@ -77,6 +105,10 @@ static float do_turn(){
 //-------------------------------------------------------------------------------
 
 static void setup_default_GPS_mission(){
+=======
+
+void setup_default_GPS_mission(){
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     hal.console->printf_P(PSTR("Setting up default GPS mission: "));
     Nlegs_GPS = 0;
     GPS_mission[Nlegs_GPS].lon       = ToRad(18.26580); // Grannen Erik
@@ -106,10 +138,17 @@ static void setup_default_GPS_mission(){
   }
 //-------------------------------------------------------------------------------
 void print_GPS_mission(){
+<<<<<<< HEAD
     hal.console->printf_P(PSTR("\n     GPS type Mission:   %i legs\n"),Nlegs_GPS);
    hal.console->printf_P(PSTR("     k_Xtrack      = %.1f\n"),k_xtrack);
    hal.console->printf_P(PSTR("     sog_threshold = %.1f\n"),sog_threshold);
    hal.console->printf_P(PSTR("     Leg     Lon     Lat         Depth   Radius   rpm  \n"));
+=======
+   hal.console->printf_P(PSTR("\n     GPS type Mission:   %i legs\n"),Nlegs_GPS);
+   hal.console->printf_P(PSTR("     k_Xtrack      = %.1f\n"),k_xtrack);
+   hal.console->printf_P(PSTR("     sog_threshold = %.1f\n"),sog_threshold);
+   hal.console->printf("     Leg     Lon     Lat         Depth   Radius   rpm  \n");
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     for (int ii=0; ii<(Nlegs_GPS); ii++) {
        hal.console->printf_P(PSTR("    %3i   %8.5f %8.5f %8.0f %8.0f %10.0f \n"),
            ii,
@@ -123,21 +162,32 @@ void print_GPS_mission(){
 //-------------------------------------------------------------------------------
 void CC_mission_manager(){
   mission_ms   = time_ms-mission_start_ms;
+<<<<<<< HEAD
   float turn_rate = 0.0; // [rad/]
+=======
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
   if ((time_ms-mission_update_timer_ms)>1000)  {
      mission_update_timer_ms = time_ms;
   
     float mission_sec = (float)mission_ms/1000.0; // [sec] Time since mission start
     // calc what leg we are on
     current_leg_nr     = 0;
+<<<<<<< HEAD
     target_ctt    =  CC_mission[current_leg_nr].course;      // [rad] 
+=======
+    target_ctt    =  CC_mission[current_leg_nr].course;      // [rad] Compass course
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     target_depth  =  CC_mission[current_leg_nr].depth;       // [m]   
     target_rpm    =  CC_mission[current_leg_nr].rpm;         // [m]   
     float legs_accumulated_time_sec = CC_mission[current_leg_nr].duration;
     while(mission_sec > legs_accumulated_time_sec){
       current_leg_nr = current_leg_nr+1;
       if (current_leg_nr<Nlegs_cc){
+<<<<<<< HEAD
         target_ctt    =  CC_mission[current_leg_nr].course;  // [rad] 
+=======
+        target_ctt    =  CC_mission[current_leg_nr].course;  // [rad] Compass course
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
         target_depth  =  CC_mission[current_leg_nr].depth;   // [m]   
         target_rpm    =  CC_mission[current_leg_nr].rpm;     // [m]   
       }
@@ -145,9 +195,13 @@ void CC_mission_manager(){
      { kill_mission();
        break;
      }
+<<<<<<< HEAD
      // Check if we should do a slow turn
      //if (abs(target_ctt)>2*pi){ target_ctt = do_turn();}
       //hal.console->printf_P(PSTR("Current leg: %i\n"),current_leg_nr );
+=======
+      //hal.console->printf_P(PSTR("Current leg: %i\n",current_leg_nr ));
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
       legs_accumulated_time_sec = legs_accumulated_time_sec + CC_mission[current_leg_nr].duration;
     } 
   }
@@ -170,9 +224,15 @@ void GPS_mission_manager(){
      ctt = calc_course_to_wp_wrpt_Xtrack_error( wpA, target_WP ,current_pos);
      
      float dtt           = tmp.dist;  // [m]
+<<<<<<< HEAD
      //hal.console->printf_P(PSTR("Target        %.5f  %.5f \n"),ToDeg(target_WP.lon),ToDeg(target_WP.lat) );
      //hal.console->printf_P(PSTR("Current pos   %.5f  %.5f \n"),ToDeg(current_pos.lon),ToDeg(current_pos.lat) );
      //hal.console->printf_P(PSTR("GPS-mission  Leg=%i(%i) CC=%.1f  COG = %.1f,  CTT=%.1fdeg,   DTT=%.1fm  \n "),current_leg_nr,Nlegs_GPS,ToDeg(heading),gps.sog,ToDeg(ctt),dtt );
+=======
+     //hal.console->printf("Target        %.5f  %.5f \n",ToDeg(target_WP.lon),ToDeg(target_WP.lat) );
+     //hal.console->printf("Current pos   %.5f  %.5f \n",ToDeg(current_pos.lon),ToDeg(current_pos.lat) );
+     //hal.console->printf("GPS-mission  Leg=%i(%i) CC=%.1f  COG = %.1f,  CTT=%.1fdeg,   DTT=%.1fm  \n ",current_leg_nr,Nlegs_GPS,ToDeg(heading),gps.sog,ToDeg(ctt),dtt );
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
 
      if (dtt*1852<GPS_mission[current_leg_nr].wp_radius){ 
        current_leg_nr++; 
@@ -189,13 +249,22 @@ void GPS_mission_manager(){
 //-------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 void Deviation_mission_manager(){
+<<<<<<< HEAD
       //hal.console->printf_P(PSTR("Deviation mission: "));
+=======
+      //hal.console->printf("Deviation mission: ");
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
  mission_ms   = time_ms-mission_start_ms;
   if ((time_ms-mission_update_timer_ms)>1000)  {
      mission_update_timer_ms = time_ms;
   
     float mission_sec = (float)mission_ms/1000.0; // [sec] Time since mission start
+<<<<<<< HEAD
     target_depth  = -10.0;
+=======
+    target_rpm    = 1600;
+    target_depth  = 0.0;
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
     
     if (mission_sec< 30){
        target_ctt    = 0.0;   
@@ -212,9 +281,12 @@ void Deviation_mission_manager(){
     }
   }
 }
+<<<<<<< HEAD
 //-------------------------------------------------------------------------------
 
 
 
 
 
+=======
+>>>>>>> 10f56fb2420d079b04375c76ae658ba93541998b
